@@ -1,0 +1,66 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+
+const SignupForm = () => {
+  const [formData, setFormData] = useState({
+    fullName: '', username: '', email: '', password: '',
+    preferredCategories: [], theme: 'light',
+    reminderTime: '', defaultSort: 'dueDate'
+  });
+
+  const categories = ['Work', 'Study', 'Personal', 'Fitness'];
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleCategoryChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setFormData(prev => ({ ...prev, preferredCategories: [...prev.preferredCategories, value] }));
+    } else {
+      setFormData(prev => ({ ...prev, preferredCategories: prev.preferredCategories.filter(c => c !== value) }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('http://localhost:5000/api/auth/signup', formData);
+      alert(res.data.message);
+    } catch (err) {
+      alert(err.response.data.error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="fullName" placeholder="Full Name" onChange={handleChange} />
+      <input name="username" placeholder="Username" onChange={handleChange} />
+      <input name="email" placeholder="Email" type="email" onChange={handleChange} />
+      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
+      <div>
+        <label>Preferred Categories:</label>
+        {categories.map(cat => (
+          <label key={cat}>
+            <input type="checkbox" value={cat} onChange={handleCategoryChange} /> {cat}
+          </label>
+        ))}
+      </div>
+      <select name="theme" onChange={handleChange}>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+      <input name="reminderTime" placeholder="Daily Reminder Time (HH:MM)" onChange={handleChange} />
+      <select name="defaultSort" onChange={handleChange}>
+        <option value="dueDate">Due Date</option>
+        <option value="category">Category</option>
+        <option value="createdAt">Created At</option>
+      </select>
+      <button type="submit">Sign Up</button>
+    </form>
+  );
+};
+
+export default SignupForm;
