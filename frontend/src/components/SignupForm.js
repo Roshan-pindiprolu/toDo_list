@@ -25,14 +25,19 @@ const SignupForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/signup', formData);
+      const res = await axios.post('http://localhost:2400/api/auth/signup', formData);
       alert(res.data.message);
     } catch (err) {
-      alert(err.response.data.error);
+      if (err.response && err.response.data && err.response.data.error) {
+        alert(err.response.data.error);
+      } else {
+        alert('Something went wrong. Please check if server is running!');
+      }
     }
   };
+  
 
   return (
     <form onSubmit={handleSubmit}>
