@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Texts from "../components/FormFields/TextField"
+import Email from '../components/FormFields/EmailField';
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -11,8 +13,9 @@ const SignupForm = () => {
   const categories = ['Work', 'Study', 'Personal', 'Fitness'];
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    // const { name, value } = e.target; 
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    console.log("Came");
   };
 
   const handleCategoryChange = (e) => {
@@ -41,6 +44,13 @@ const SignupForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+
+      <Texts name="fullName" nameOfTheField="Full Name" sx={{ p: 1 }} sizeOfTheField="small" handleChanges={handleChange} />
+
+      <Texts name="username" nameOfTheField="Username" sx={{ p: 1 }} sizeOfTheField="small" handleChanges={handleChange} />
+
+      <Email handleChanges={handleChange} />
+
       <input name="fullName" placeholder="Full Name" onChange={handleChange} />
       <input name="username" placeholder="Username" onChange={handleChange} />
       <input name="email" placeholder="Email" type="email" onChange={handleChange} />
