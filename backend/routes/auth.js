@@ -26,7 +26,9 @@ router.post('/signup', async (req, res) => {
     await user.save();
     res.status(201).json({ message: 'User registered successfully!' });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    if (!username || !email || !password) {
+      return res.status(400).json({ error: 'All required fields must be filled!' });
+    }    
   }
 });
 

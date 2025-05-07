@@ -26,20 +26,22 @@ const SignupForm = () => {
   }, []);
 
   const handleCategoryChange = (e) => {
-    const { value, checked } = e.target;
+    // const { value, checked } = e.target;
     setFormData(prev => ({
       ...prev,
-      preferredCategories: checked
-        ? [...prev.preferredCategories, value]
-        : prev.preferredCategories.filter(c => c !== value)
+      preferredCategories: e.target.checked
+        ? [...prev.preferredCategories, e.target.value]
+        : prev.preferredCategories.filter(c => c !== e.target.value)
     }));
   };
   
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
+
     try {
       const res = await axios.post('http://localhost:2400/api/auth/signup', formData);
+      // console.log(res);
       alert(res.data.message);
     } catch (err) {
       if (err.response && err.response.data && err.response.data.error) {
@@ -56,10 +58,10 @@ const SignupForm = () => {
 
       <Texts name="fullName" nameOfTheField="Full Name" sx={{ p: 1 }} sizeOfTheField="small" handleChanges={handleChange} />
 
-      <Texts name="username" nameOfTheField="Username" sx={{ p: 1 }} sizeOfTheField="small" handleChanges={handleChange} />
+      <Texts name="username" nameOfTheField="Username" sx={{ p: 1 }} sizeOfTheField="small" handleChanges={handleChange} required/>
 
-      <Email handleChanges={handleChange} />
-      <Password handleChanges={handleChange} />
+      <Email name="email" handleChanges={handleChange} />
+      <Password name="password" handleChanges={handleChange} />
 
       <Typography variant="body1">Preferred Categories:</Typography>
       {categories.map((cat) => (
