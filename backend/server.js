@@ -13,14 +13,19 @@ app.use(bodyParser.json());
 // Routes
 app.use('/api/auth', authRoutes);
 
+require('dotenv').config();
+const PORT = 2400;
+
 // MongoDB Connection (new style)
-mongoose.connect('mongodb://localhost:27017/todoApp')
-  .then(() => {
-    console.log('Connected to MongoDB ✅');
-  })
-  .catch((err) => {
-    console.error('Failed to connect to MongoDB ❌', err);
-  });
+mongoose.connect(process.env.MONGO_URI)  
+.then(() => {
+  console.log('Connected to MongoDB ✅');
+})
+.catch((err) => {
+  console.error('Failed to connect to MongoDB ❌', err);
+});
+
+
 
 
   app.get('/', (req, res) => {
@@ -29,4 +34,6 @@ mongoose.connect('mongodb://localhost:27017/todoApp')
   
 
 // Start Server
-app.listen(2400, () => console.log('Server running on port 2400'));
+// app.listen(2400, () => console.log('Server running on port 2400'));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+

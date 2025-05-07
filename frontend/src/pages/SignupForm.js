@@ -13,9 +13,7 @@ const SignupForm = () => {
   const categories = ['Work', 'Study', 'Personal', 'Fitness'];
 
   const handleChange = (e) => {
-    // const { name, value } = e.target; 
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    console.log("Came");
   };
 
   const handleCategoryChange = (e) => {
