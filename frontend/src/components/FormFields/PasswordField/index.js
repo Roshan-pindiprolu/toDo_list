@@ -1,15 +1,15 @@
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
+import { Typography } from '@mui/material';
 
-const Password = () => {
+const Password = (props) => {
+    const { handleChanges } = props;
     const [showPassword, setShowPassword] = useState(false);
     const [input, setInput] = useState('');
     const [error, setError] = useState(false);
@@ -50,6 +50,7 @@ const Password = () => {
 
     const handleChange = (e) => {
         setInput(e.target.value);
+        handleChanges(e);
     };
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -59,36 +60,35 @@ const Password = () => {
     };
 
     return (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-            <div>
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                    <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showPassword ? 'text' : 'password'}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label={showPassword ? 'hide the password' : 'display the password'}
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        label="Password"
-                        value={input}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={error}
-                    />
-                    <FormHelperText error={error}>
-                        {error ? errorMessage : 'Enter a strong password'}
-                    </FormHelperText>
-                </FormControl>
-            </div>
+        <Box sx={{ display: 'flex', alignItems: 'flex-end', my: 2 }}>
+            <Typography variant="body1" sx={{ mb: 2, mr: 5}}>
+                Password
+            </Typography>
+            <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? 'text' : 'password'}
+                endAdornment={
+                    <InputAdornment position="end">
+                        <IconButton
+                            aria-label={showPassword ? 'hide the password' : 'display the password'}
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                        >
+                            {showPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
+                        </IconButton>
+                    </InputAdornment>
+                }
+                label="Password"
+                value={input}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={error}
+                size="small"
+            />
+            <FormHelperText error={error} sx={{ mx: 2, mb: 1 }}>
+                {error ? errorMessage : 'Enter a strong password'}
+            </FormHelperText>
         </Box>
     );
 };

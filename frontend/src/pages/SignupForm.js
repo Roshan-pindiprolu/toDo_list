@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Texts from "../components/FormFields/TextField"
 import Email from '../components/FormFields/EmailField';
+import Password from '../components/FormFields/PasswordField';
+import { Checkbox, FormControlLabel, Typography } from '@mui/material';
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -10,20 +12,29 @@ const SignupForm = () => {
     reminderTime: '', defaultSort: 'dueDate'
   });
 
-  const categories = ['Work', 'Study', 'Personal', 'Fitness'];
+  // const categories = ['Work', 'Study', 'Personal', 'Fitness'];
+  const [categories, setCategories] = useState([]);
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  useEffect(() => {
+    axios.get('http://localhost:2400/api/meta/categories')
+      .then(res => setCategories(res.data.preferredCategories))
+      .catch(err => console.error('Failed to fetch categories:', err));
+  }, []);
+
   const handleCategoryChange = (e) => {
     const { value, checked } = e.target;
-    if (checked) {
-      setFormData(prev => ({ ...prev, preferredCategories: [...prev.preferredCategories, value] }));
-    } else {
-      setFormData(prev => ({ ...prev, preferredCategories: prev.preferredCategories.filter(c => c !== value) }));
-    }
+    setFormData(prev => ({
+      ...prev,
+      preferredCategories: checked
+        ? [...prev.preferredCategories, value]
+        : prev.preferredCategories.filter(c => c !== value)
+    }));
   };
+  
 
   const handleSubmit = async (e) => {
     // e.preventDefault();
@@ -48,19 +59,24 @@ const SignupForm = () => {
       <Texts name="username" nameOfTheField="Username" sx={{ p: 1 }} sizeOfTheField="small" handleChanges={handleChange} />
 
       <Email handleChanges={handleChange} />
+      <Password handleChanges={handleChange} />
 
-      <input name="fullName" placeholder="Full Name" onChange={handleChange} />
-      <input name="username" placeholder="Username" onChange={handleChange} />
-      <input name="email" placeholder="Email" type="email" onChange={handleChange} />
-      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
-      <div>
-        <label>Preferred Categories:</label>
-        {categories.map(cat => (
-          <label key={cat}>
-            <input type="checkbox" value={cat} onChange={handleCategoryChange} /> {cat}
-          </label>
-        ))}
-      </div>
+      <Typography variant="body1">Preferred Categories:</Typography>
+      {categories.map((cat) => (
+        <FormControlLabel
+          key={cat.id}
+          control={
+            <Checkbox
+              value={cat.category}
+              checked={formData.preferredCategories.includes(cat.category)}
+              onChange={handleCategoryChange}
+            />
+          }
+          label={cat.category}
+        />
+      ))}
+
+      <FormControlLabel control={<Checkbox />} label="Label" />
       <select name="theme" onChange={handleChange}>
         <option value="light">Light</option>
         <option value="dark">Dark</option>

@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
+const metaRoutes = require('./routes/meta');
+
 
 const app = express();
 
@@ -12,6 +14,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/meta', metaRoutes);
 
 require('dotenv').config();
 const PORT = 2400;

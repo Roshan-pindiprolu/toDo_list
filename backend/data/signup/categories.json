@@ -1,0 +1,37 @@
+{
+    "preferredCategories": [
+        {
+            "id": 1,
+            "category": "Work"
+        },
+        {
+            "id": 2,
+            "category": "Study"
+        },
+        {
+            "id": 3,
+            "category": "Personal"
+        },
+        {
+            "id": 4,
+            "category": "Fitness"
+        },
+        {
+            "id": 5,
+            "category": "Health"
+        },
+        {
+            "id": 6,
+            "category": "Finance"
+        },
+        {
+            "id": 7,
+            "category": "Relationship"
+        },
+        {
+            "id": 8,
+            "category": "Projects"
+        }
+    ]
+}
+  
