@@ -3,9 +3,26 @@ import axios from 'axios';
 import Texts from "../components/FormFields/TextField"
 import Email from '../components/FormFields/EmailField';
 import Password from '../components/FormFields/PasswordField';
-import { Checkbox, FormControlLabel, Typography } from '@mui/material';
+import { Checkbox, FormControlLabel, Typography, Autocomplete, TextField, Stack, Button } from '@mui/material';
 import SwitchField from '../components/FormFields/SwitchField';
 
+
+const Dropdown = ({ otp = [], labelName, getOptionLabel, onChange, value }) => {
+  const selectedOption = otp.find(option => option.sortName === value) || null;
+
+  return (
+    <Stack spacing={3} sx={{ width: 500 }}>
+      <label>{labelName}</label>
+      <Autocomplete
+        options={otp}
+        getOptionLabel={getOptionLabel}
+        value={selectedOption}
+        onChange={onChange}
+        renderInput={(params) => <TextField {...params} placeholder="Select..." />}
+      />
+    </Stack>
+  );
+};
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -18,17 +35,30 @@ const SignupForm = () => {
   //   reminderTime: '', defaultSort: 'dueDate'
   // });
 
-  // const categories = ['Work', 'Study', 'Personal', 'Fitness'];
   const [categories, setCategories] = useState([]);
+  const [sort, setSort] = useState([]);
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
+  console.log("kkok");
 
   useEffect(() => {
-    axios.get('http://localhost:2400/api/meta/categories')
-      .then(res => setCategories(res.data.preferredCategories))
-      .catch(err => console.error('Failed to fetch categories:', err));
+    const fetchMeta = async () => {
+      try {
+        const [categoriesRes, sortRes] = await Promise.all([
+          axios.get('http://localhost:2400/api/meta/categories'),
+          axios.get('http://localhost:2400/api/meta/sort')
+        ]);
+  
+        setCategories(categoriesRes.data.preferredCategories);
+        setSort(sortRes.data.preferredSort);
+      } catch (err) {
+        console.error('Error fetching metadata:', err);
+      }
+    };
+  
+    fetchMeta();
   }, []);
 
   const handleCategoryChange = (e) => {
@@ -60,6 +90,7 @@ const SignupForm = () => {
   
 
   return (
+    <>
     <form onSubmit={handleSubmit}>
 
       <Texts name="fullName" nameOfTheField="Full Name" sx={{ p: 1 }} sizeOfTheField="small" handleChanges={handleChange} />
@@ -86,13 +117,24 @@ const SignupForm = () => {
 
       <SwitchField name="theme" handleChanges={handleChange}/>
       {/* <input name="reminderTime" placeholder="Daily Reminder Time (HH:MM)" onChange={handleChange} /> */}
-      <select name="defaultSort" onChange={handleChange}>
-        <option value="dueDate">Due Date</option>
-        <option value="category">Category</option>
-        <option value="createdAt">Created At</option>
-      </select>
-      <button type="submit">Sign Up</button>
+      {sort.length > 0 && (
+        <Dropdown
+          labelName="Sort:"
+          otp={sort}
+          value={formData.defaultSort}
+          getOptionLabel={(option) => option.sortDisplayName}
+          onChange={(event, newValue) => {
+            setFormData(prev => ({
+              ...prev,
+              defaultSort: newValue ? newValue.sortName : ''
+            }));
+          }}
+        />
+      )}
+      <Button type="submit" variant="contained" sx={{ my: 2 }}>Sign Up</Button>
     </form>
+    
+    </>
   );
 };
 
