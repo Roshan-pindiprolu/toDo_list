@@ -1,0 +1,19 @@
+{
+    "preferredSort":[
+        {
+            "id": 1,
+            "sortName": "dueDate",
+            "sortDisplayName": "Due Date"
+        },
+        {
+            "id": 2,
+            "sortName": "category",
+            "sortDisplayName": "Category"
+        },
+        {
+            "id": 3,
+            "sortName": "createdAt",
+            "sortDisplayName": "Created At"
+        }
+    ]
+}
