@@ -19,9 +19,18 @@ router.post('/signup', async (req, res) => {
       password: hash,
       preferredCategories,
       theme,
-      reminderTime,
       defaultSort
     });
+    // const user = new User({
+    //   fullName,
+    //   username,
+    //   email,
+    //   password: hash,
+    //   preferredCategories,
+    //   theme,
+    //   reminderTime,
+    //   defaultSort
+    // });
 
     await user.save();
     res.status(201).json({ message: 'User registered successfully!' });

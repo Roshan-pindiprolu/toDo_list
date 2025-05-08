@@ -48,12 +48,13 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function CustomizedSwitches() {
+const SwitchField = (props) =>{
+  const { handleChanges } = props;
   const [checked, setChecked] = useState(false);
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
-    console.log('Switch is now:', event.target.checked ? 'ON' : 'OFF');
+    handleChanges(event);
   };
 
   return (
@@ -69,3 +70,5 @@ export default function CustomizedSwitches() {
     </FormGroup>
   );
 }
+
+export default SwitchField;

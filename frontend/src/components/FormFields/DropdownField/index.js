@@ -2,7 +2,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 
-const Dropdown = () => {
+const Dropdown = (props) => {
+  const {} = props;
   return (
     <Stack spacing={3} sx={{ width: 500 }}>
         <label> Preferred Categories<Autocomplete

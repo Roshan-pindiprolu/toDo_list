@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 const Email = (props) => {
-    const { handleChanges, ...rest } = props
+    const { handleChanges, ...rest } = props;
     const [input, setInput] = useState('');
     const [error, setError] = useState(false);
 
@@ -27,7 +27,7 @@ const Email = (props) => {
 
     const handleChange = (e) => {
         setInput(e.target.value);
-        handleChanges(e)
+        handleChanges(e);
     };
 
     let errorMessage = error ? "Please enter the correct email format" : ""
