@@ -2,7 +2,7 @@
   "name": "todo_list",
   "version": "1.0.0",
   "scripts": {
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently -n backend,frontend -c green,blue \"npm run server\" \"npm run client\"",
     "server": "cd backend && nodemon server.js",
     "client": "cd frontend && npm start"
   },
