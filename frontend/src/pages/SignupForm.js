@@ -4,13 +4,19 @@ import Texts from "../components/FormFields/TextField"
 import Email from '../components/FormFields/EmailField';
 import Password from '../components/FormFields/PasswordField';
 import { Checkbox, FormControlLabel, Typography } from '@mui/material';
+import SwitchField from '../components/FormFields/SwitchField';
+
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
     fullName: '', username: '', email: '', password: '',
-    preferredCategories: [], theme: 'light',
-    reminderTime: '', defaultSort: 'dueDate'
+    preferredCategories: [], theme: 'light', defaultSort: 'dueDate'
   });
+  // const [formData, setFormData] = useState({
+  //   fullName: '', username: '', email: '', password: '',
+  //   preferredCategories: [], theme: 'light',
+  //   reminderTime: '', defaultSort: 'dueDate'
+  // });
 
   // const categories = ['Work', 'Study', 'Personal', 'Fitness'];
   const [categories, setCategories] = useState([]);
@@ -78,12 +84,8 @@ const SignupForm = () => {
         />
       ))}
 
-      <FormControlLabel control={<Checkbox />} label="Label" />
-      <select name="theme" onChange={handleChange}>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </select>
-      <input name="reminderTime" placeholder="Daily Reminder Time (HH:MM)" onChange={handleChange} />
+      <SwitchField name="theme" handleChanges={handleChange}/>
+      {/* <input name="reminderTime" placeholder="Daily Reminder Time (HH:MM)" onChange={handleChange} /> */}
       <select name="defaultSort" onChange={handleChange}>
         <option value="dueDate">Due Date</option>
         <option value="category">Category</option>
