@@ -3,14 +3,29 @@ const fs = require('fs');
 const path = require('path');
 const router = express.Router();
 
-// GET: /api/meta/categories
-router.get('/categories', (req, res) => {
-  const filePath = path.join(__dirname, '../data/signup/categories.json');
-  fs.readFile(filePath, 'utf-8', (err, data) => {
-    if (err) {
-      return res.status(500).json({ error: 'Failed to load categories' });
+router.get('/:type', (req, res) => {
+  const { type } = req.params;
+  const filePath = path.join(__dirname, `../data/signup/${type}.json`);
+
+  // Step 1: Check if file exists
+  fs.access(filePath, fs.constants.F_OK, (accessErr) => {
+    if (accessErr) {
+      return res.status(404).json({ error: `${type}.json not found` });
     }
-    res.json(JSON.parse(data)); // Send parsed JSON to client
+
+    // Step 2: Read file if it exists
+    fs.readFile(filePath, 'utf-8', (readErr, data) => {
+      if (readErr) {
+        return res.status(500).json({ error: `Failed to read ${type}.json` });
+      }
+
+      try {
+        const parsed = JSON.parse(data);
+        res.json(parsed);
+      } catch (parseErr) {
+        res.status(500).json({ error: `Invalid JSON in ${type}.json` });
+      }
+    });
   });
 });
 
