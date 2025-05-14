@@ -2,8 +2,8 @@
   "name": "todo_list",
   "version": "1.0.0",
   "scripts": {
-    "dev": "concurrently -n backend,frontend -c green,blue \"npm run server\" \"npm run client\"",
-    "server": "cd backend && nodemon server.js",
+    "dev": "concurrently -n server-api,client-ui -c green,blue \"npm run server\" \"npm run client\"",
+    "server": "cd server-api && nodemon server.js",
     "client": "cd client-ui && npm run dev"
   },
   "devDependencies": {
