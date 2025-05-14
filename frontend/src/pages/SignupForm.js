@@ -133,7 +133,9 @@ const SignupForm = () => {
       )}
       <Button type="submit" variant="contained" sx={{ my: 2 }}>Sign Up</Button>
     </form>
-    
+    <h1 class="text-3xl font-bold underline">
+      Hello world!
+    </h1>
     </>
   );
 };

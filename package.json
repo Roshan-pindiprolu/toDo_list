@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "concurrently -n backend,frontend -c green,blue \"npm run server\" \"npm run client\"",
     "server": "cd backend && nodemon server.js",
-    "client": "cd frontend && npm start"
+    "client": "cd client-ui && npm run dev"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
